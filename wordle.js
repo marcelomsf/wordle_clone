@@ -55,7 +55,7 @@ function intialize() {
                 alert("A campos vazios")
             }
         }
-
+ 
         // validate result
 
         if (!gameOver && row == height) {
@@ -71,6 +71,21 @@ function intialize() {
 function update(){
 
     let correct = 0;
+    let letterCount = {}; //KENNY -> {K:1 , E:1 , N:2 , Y:1}
+    for ( let i = 0; i < word.length; i ++){
+        letter = word[i];
+        if (letterCount[letter]) {
+            letterCount += 1;
+        } 
+        else{
+
+            letterCount[letter] = 1;
+
+        }
+    }
+
+
+    //first iterration check all the correct ones
     for (let c = 0; c < width; c++) {
 
         let currTile = document.getElementById(row.toString()  + "-" + c.toString() );
@@ -80,18 +95,33 @@ function update(){
         if (word[c] == letter ){
             currTile.classList.add("correct");
             correct += 1;
-        }// is it in the word ?
-        else if ( word.includes(letter)) {
-            currTile.classList.add("present");
-        } // Not on the word
-        else {
-            currTile.classList.add("absent");
+            letterCount[letter] -= 1;
         }
 
         if (correct  == width) {
             gameOver = true;
         }
     }
+
+    //go again and mark which ones are present but in wrong position
+    for (let c = 0; c < width; c++) {
+
+        let currTile = document.getElementById(row.toString()  + "-" + c.toString() );
+        let letter = currTile.innerText;
+
+        if (!currTile.classList.contains("correct")){
+            // Is it in the word ?
+            if ( word.includes(letter) && letterCount[letter] > 0) {
+                currTile.classList.add("present");
+                letterCount[letter] -= 1;
+            } // Not on the word
+            else {
+                currTile.classList.add("absent");
+            }
+
+        }
+    }
+
 
 }
 
