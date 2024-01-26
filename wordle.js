@@ -46,6 +46,65 @@ function intialize() {
             let currTile = document.getElementById(row.toString() + "-" + col.toString() );
             currTile.innerText = "";
         }
+        else if (e.code = "Enter") {
+            if (notEmpty() ){
+                update();
+                row += 1; //start  new row
+                col = 0;  //start at 0 for new row
+            }else {
+                alert("A campos vazios")
+            }
+        }
+
+        // validate result
+
+        if (!gameOver && row == height) {
+
+            gameOver = true;
+            document.getElementById("answer").innerText = word;
+        }
     }) 
 
+}
+
+
+function update(){
+
+    let correct = 0;
+    for (let c = 0; c < width; c++) {
+
+        let currTile = document.getElementById(row.toString()  + "-" + c.toString() );
+        let letter = currTile.innerText;
+
+        //Is it in the correct position ?
+        if (word[c] == letter ){
+            currTile.classList.add("correct");
+            correct += 1;
+        }// is it in the word ?
+        else if ( word.includes(letter)) {
+            currTile.classList.add("present");
+        } // Not on the word
+        else {
+            currTile.classList.add("absent");
+        }
+
+        if (correct  == width) {
+            gameOver = true;
+        }
+    }
+
+}
+
+
+function notEmpty(){
+
+    for ( let c = 0; c < width; c++){
+        let currTile = document.getElementById(row.toString() + "-" + c.toString());
+        if (currTile.innerText == ""){
+
+            return false;
+        }
+    }
+
+    return true;
 }
