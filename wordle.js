@@ -20,9 +20,32 @@ function intialize() {
             let tile = document.createElement("span");
             tile.id = r.toString() + "-" + c.toString();
             tile.classList.add("tile");
-            tile.innerText = "P";
+            tile.innerText = "";
             document.getElementById("board").appendChild(tile);
         }
     }
+
+    //Listen for key Press
+    document.addEventListener("keyup", (e) => {
+        if(gameOver) return;
+       // alert(e.code);
+        if("KeyA" <= e.code && e.code <= "KeyZ") {
+            if( col < width) {
+                let currTile = document.getElementById(row.toString() + "-" + col.toString() );
+                if (currTile.innerHTML == "") {
+                    currTile.innerText = e.code[3];
+                    col += 1;
+                }
+
+            }
+        }else if (e.code == "Backspace") {
+            //alert(e.code);
+            if( 0 < col && col <= width ){
+                col -= 1;
+            }
+            let currTile = document.getElementById(row.toString() + "-" + col.toString() );
+            currTile.innerText = "";
+        }
+    }) 
 
 }
