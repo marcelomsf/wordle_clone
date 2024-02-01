@@ -50,7 +50,7 @@ function intialize() {
             keyTile.innerText = key;
             if ( key == "Enter") {
                 keyTile.id = "Enter";
-            }else if (key = "Back"){
+            }else if (key == "Back"){
                 keyTile.id = "Backspace"
             }else if ("A" <= key && key <= "Z"){
                 keyTile.id = "Key" + key; // Key + A
@@ -164,6 +164,11 @@ function update(){
         //Is it in the correct position ?
         if (word[c] == letter ){
             currTile.classList.add("correct");
+
+            let keyTile = document.getElementById("Key" + letter);
+            keyTile.classList.remove("present");
+            keyTile.classList.add("correct");
+
             correct += 1;
             letterCount[letter] -= 1;
         }
@@ -183,10 +188,19 @@ function update(){
             // Is it in the word ?
             if ( word.includes(letter) && letterCount[letter] > 0) {
                 currTile.classList.add("present");
+                
+                let keyTile = document.getElementById("Key" + letter);
+                if (!keyTile.classList.contains("correct")){
+                    keyTile.classList.add("present");
+                }
+
                 letterCount[letter] -= 1;
             } // Not on the word
             else {
                 currTile.classList.add("absent");
+                let keyTile = document.getElementById("Key" + letter);
+                keyTile.classList.add("absent");
+
             }
 
         }
